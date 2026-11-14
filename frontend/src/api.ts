@@ -1,4 +1,10 @@
-import type { ChatMessage, ChatResponse, DocumentInfo } from "./types";
+import type {
+  ChatMessage,
+  ChatResponse,
+  ChunkingStrategy,
+  ChunkingOptions,
+  DocumentInfo,
+} from "./types";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "/api/v1").replace(
   /\/$/,
@@ -46,9 +52,41 @@ export function getDocuments(signal?: AbortSignal): Promise<DocumentInfo[]> {
   return request<DocumentInfo[]>("/documents", { signal });
 }
 
-export function uploadDocument(file: File): Promise<DocumentInfo> {
+export function getChunkingOptions(signal?: AbortSignal): Promise<ChunkingOptions> {
+  return request<ChunkingOptions>("/documents/chunking-options", { signal });
+}
+
+export function uploadDocument(
+  file: File,
+  options: {
+    strategy: ChunkingStrategy;
+    chunkSize: number;
+    chunkOverlap: number;
+    minChunkSize: number;
+    similarityThreshold: number;
+    maxChunkTokens: number;
+    prompt: string;
+    preserveStructure: boolean;
+    windowSize: number;
+    windowStride: number;
+    embeddingModel: string;
+    llmModel: string;
+  },
+): Promise<DocumentInfo> {
   const body = new FormData();
   body.append("file", file);
+  body.append("chunking_strategy", options.strategy);
+  body.append("chunk_size", String(options.chunkSize));
+  body.append("chunk_overlap", String(options.chunkOverlap));
+  body.append("min_chunk_size", String(options.minChunkSize));
+  body.append("similarity_threshold", String(options.similarityThreshold));
+  body.append("max_chunk_tokens", String(options.maxChunkTokens));
+  body.append("chunking_prompt", options.prompt);
+  body.append("preserve_structure", String(options.preserveStructure));
+  body.append("window_size", String(options.windowSize));
+  body.append("window_stride", String(options.windowStride));
+  body.append("embedding_model", options.embeddingModel);
+  body.append("llm_model", options.llmModel);
   return request<DocumentInfo>("/documents/upload", {
     method: "POST",
     body,

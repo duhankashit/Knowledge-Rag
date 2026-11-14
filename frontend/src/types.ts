@@ -1,4 +1,12 @@
 export type Page = "chat" | "files";
+export type ChunkingStrategy =
+  | "basic"
+  | "recursive"
+  | "sentence"
+  | "paragraph"
+  | "semantic"
+  | "agentic"
+  | "sliding_window";
 
 export interface ChatSource {
   filename: string;
@@ -17,6 +25,11 @@ export interface DocumentInfo {
   filename: string;
   chunk_count: number;
   uploaded_at: string;
+}
+
+export interface ChunkingOptions {
+  embedding_models: string[];
+  llm_models: string[];
 }
 
 export interface ChatResponse {

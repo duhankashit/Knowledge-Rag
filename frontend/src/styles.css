@@ -173,6 +173,25 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .button-primary:hover:not(:disabled) { background: var(--accent-dark); }
 .upload-hint { position: absolute; bottom: 11px; left: 79px; color: #a7aea9; font-size: 9px; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); border: 0; }
+.chunk-options {
+  display: grid; grid-template-columns: minmax(210px, 1.3fr) repeat(2, minmax(130px, .7fr));
+  gap: 10px; margin-top: 12px; padding: 13px; border: 1px solid #e7ece9; border-radius: 8px; background: #fff;
+}
+.chunk-options label { display: grid; gap: 6px; color: #7d8981; font-size: 10px; }
+.chunk-options select, .chunk-options input:not([type="checkbox"]):not([type="range"]) {
+  width: 100%; min-width: 0; height: 34px; padding: 0 9px; color: #4b554e;
+  border: 1px solid #e4e8e5; border-radius: 5px; background: #fff; font-size: 10px;
+}
+.chunk-options input[type="range"] { width: 100%; height: 34px; padding: 0; accent-color: var(--accent); }
+.chunk-options textarea {
+  width: 100%; min-height: 82px; padding: 9px; color: #4b554e; border: 1px solid #e4e8e5;
+  border-radius: 5px; background: #fff; font-family: inherit; font-size: 10px; line-height: 1.5; resize: vertical;
+}
+.chunk-options .chunk-prompt { grid-column: 1 / -1; }
+.chunk-options .chunk-checkbox { display: flex; align-items: center; gap: 8px; }
+.chunk-options .chunk-checkbox input[type="checkbox"] { width: 14px; height: 14px; margin: 0; accent-color: var(--accent); }
+.chunk-options .chunk-checkbox span { color: #7d8981; }
+.chunk-options p { grid-column: 1 / -1; margin: 0; color: #98a09a; font-size: 9px; line-height: 1.5; }
 
 .library-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 34px; padding-bottom: 15px; }
 .library-title { display: flex; align-items: center; gap: 11px; }
@@ -264,6 +283,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .upload-copy > span { font-size: 9px; }
   .button-primary { margin-left: 49px; padding: 8px 10px; }
   .upload-hint { bottom: 13px; left: 14px; font-size: 8px; }
+  .chunk-options { grid-template-columns: 1fr 1fr; gap: 9px; padding: 11px; }
+  .chunk-options label:first-child { grid-column: 1 / -1; }
   .library-toolbar { align-items: flex-start; flex-direction: column; margin-top: 27px; }
   .library-actions { width: 100%; }
   .search-field { flex: 1; }
