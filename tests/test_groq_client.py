@@ -63,6 +63,29 @@ class GrokClientTests(unittest.TestCase):
 
         mock_client.chat.completions.create.assert_called_once()
 
+    def test_uses_selected_model_before_configured_fallback(self) -> None:
+        client = GrokClient(
+            "test-key",
+            "https://api.groq.com/openai/v1",
+            "primary-model",
+            "fallback-model",
+        )
+        mock_client = Mock()
+        mock_client.chat.completions.create.return_value = SimpleNamespace(
+            choices=[SimpleNamespace(message=SimpleNamespace(content="answer"))]
+        )
+        client._client = mock_client
+
+        answer = client.generate(
+            [{"role": "user", "content": "question"}], model="selected-model"
+        )
+
+        self.assertEqual(answer, "answer")
+        self.assertEqual(
+            mock_client.chat.completions.create.call_args.kwargs["model"],
+            "selected-model",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     grok_base_url: str = "https://api.groq.com"
     grok_model: str = "qwen/qwen3.8-27b"
     grok_fallback_model: str = "openai/gpt-oss-20b"
+    grok_input_cost_per_million: float | None = Field(default=None, ge=0)
+    grok_output_cost_per_million: float | None = Field(default=None, ge=0)
     huggingface_model_url: str = "https://huggingface.co/BAAI/bge-small-en-v1.5"
     huggingface_endpoint: str = "https://huggingface.co"
     hf_token: str = ""

@@ -4,6 +4,8 @@ import type {
   ChunkingStrategy,
   ChunkingOptions,
   DocumentInfo,
+  EvaluationFramework,
+  EvaluationRun,
 } from "./types";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "/api/v1").replace(
@@ -107,5 +109,23 @@ export function sendMessage(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question, history }),
+  });
+}
+
+export function runEvaluation(
+  framework: EvaluationFramework,
+  cases: Array<{
+    question: string;
+    expected_answer?: string;
+    relevant_contexts?: string[];
+    answer?: string;
+    retrieved_contexts?: string[];
+    generation_latency_ms?: number;
+  }>,
+): Promise<EvaluationRun> {
+  return request<EvaluationRun>("/evaluation/run", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ framework, cases }),
   });
 }

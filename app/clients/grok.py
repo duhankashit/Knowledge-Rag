@@ -23,9 +23,13 @@ class GrokClient:
             self._client = Groq(api_key=self.api_key, base_url=self.base_url)
         return self._client
 
-    def generate(self, messages: list[dict[str, str]]) -> str:
+    def generate(
+        self, messages: list[dict[str, str]], model: str | None = None
+    ) -> str:
         models = dict.fromkeys(
-            model.strip() for model in (self.model, self.fallback_model) if model.strip()
+            candidate.strip()
+            for candidate in (model or self.model, self.fallback_model)
+            if candidate.strip()
         )
         last_model_error: APIStatusError | None = None
         for model in models:

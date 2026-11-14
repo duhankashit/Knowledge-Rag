@@ -5,7 +5,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { sendMessage } from "../api";
-import type { ChatMessage } from "../types";
+import InlineEvaluation from "./InlineEvaluation";
+import type { ChatMessage, EvaluationRun } from "../types";
 
 interface ChatPageProps {
   messages: ChatMessage[];
@@ -66,7 +67,13 @@ export default function ChatPage({ messages, setMessages }: ChatPageProps) {
       const response = await sendMessage(prompt, history);
       setMessages((current) => [
         ...current,
-        { role: "assistant", content: response.answer, sources: response.sources },
+        {
+          role: "assistant",
+          content: response.answer,
+          sources: response.sources,
+          evaluationQuestion: prompt,
+          generationLatencyMs: response.generation_latency_ms,
+        },
       ]);
     } catch (requestError) {
       setError(
@@ -144,7 +151,7 @@ export default function ChatPage({ messages, setMessages }: ChatPageProps) {
                 <div className="message-body">
                   <div className="message-author">
                     {message.role === "assistant" ? "Assistant" : "You"}
-                    {message.role === "assistant" && (
+                    {message.role === "assistant" && message.evaluationQuestion && (
                       <span className="message-meta">RAG assistant</span>
                     )}
                   </div>
@@ -177,6 +184,20 @@ export default function ChatPage({ messages, setMessages }: ChatPageProps) {
                         ))}
                       </div>
                     </div>
+                  )}
+                  {message.role === "assistant" && (
+                    <InlineEvaluation
+                      message={message}
+                      onResult={(run: EvaluationRun) =>
+                        setMessages((current) =>
+                          current.map((item, itemIndex) =>
+                            itemIndex === index
+                              ? { ...item, evaluation: run }
+                              : item,
+                          ),
+                        )
+                      }
+                    />
                   )}
                 </div>
               </article>

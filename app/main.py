@@ -7,6 +7,7 @@ from app.clients.grok import GrokClient
 from app.core.config import get_settings
 from app.core.logging import configure_logging
 from app.repositories.vector_store import VectorStore
+from app.services.evaluation import EvaluationService
 from app.services.rag import RAGService
 
 settings = get_settings()
@@ -33,6 +34,12 @@ async def lifespan(application: FastAPI):
     application.state.grok = grok
     application.state.rag = RAGService(
         vector_store, grok, settings.retrieval_top_k
+    )
+    application.state.evaluation = EvaluationService(
+        application.state.rag,
+        grok,
+        vector_store,
+        settings,
     )
     yield
 

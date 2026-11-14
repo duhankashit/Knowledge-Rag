@@ -240,6 +240,31 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+.inline-evaluation { margin-top: 13px; }
+.inline-evaluation-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; color: var(--accent-dark); border: 1px solid var(--accent-border); border-radius: 6px; background: #fff; font-size: 10px; font-weight: 600; }
+.inline-evaluation-toggle:hover { background: var(--accent-surface); }
+.inline-evaluation-form, .inline-evaluation-report { margin-top: 9px; padding: 12px; border: 1px solid #e6eae8; border-radius: 8px; background: #fff; }
+.inline-evaluation-form { display: grid; gap: 10px; }
+.inline-evaluation-form label { display: grid; gap: 5px; color: #6d7971; font-size: 10px; font-weight: 600; }
+.inline-evaluation-form select, .inline-evaluation-form textarea { width: 100%; padding: 8px 9px; color: #4b554e; border: 1px solid #e3e8e4; border-radius: 5px; background: #fff; font-size: 10px; }
+.inline-evaluation-form select { height: 34px; }
+.inline-evaluation-form textarea { min-height: 58px; line-height: 1.5; resize: vertical; }
+.inline-evaluation-hint { margin: 0; color: #99a19b; font-size: 9px; line-height: 1.5; }
+.inline-evaluation-error { display: flex; align-items: center; gap: 6px; margin: 0; color: #a44642; font-size: 10px; }
+.inline-evaluation-run { justify-self: start; margin: 0; }
+.inline-evaluation-report-heading { display: flex; justify-content: space-between; gap: 10px; padding-bottom: 9px; color: #58645c; font-size: 10px; font-weight: 700; }
+.inline-evaluation-report-heading > span:last-child { font-size: 9px; }
+.evaluation-success { color: #39826e !important; }
+.evaluation-failures { color: #b6524d !important; }
+.inline-evaluation-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.inline-evaluation-groups > section { min-width: 0; padding: 9px; border: 1px solid #edf0ee; border-radius: 6px; background: #fcfdfc; }
+.inline-evaluation-groups h3 { display: flex; align-items: center; gap: 5px; margin: 0 0 7px; color: #59665d; font-size: 9px; line-height: 1.5; }
+.inline-evaluation-metric { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; border-top: 1px solid #f0f2f0; color: #8c9690; font-size: 9px; }
+.inline-evaluation-metric strong { color: #47534b; font-size: 9px; font-weight: 650; text-align: right; }
+.inline-evaluation-reasons { margin-top: 9px; color: #748078; font-size: 9px; }
+.inline-evaluation-reasons summary { cursor: pointer; font-weight: 650; }
+.inline-evaluation-reasons p { margin: 7px 0 0; line-height: 1.5; overflow-wrap: anywhere; }
+
 @media (min-width: 1500px) {
   .documents-page { padding-top: 55px; }
   .welcome-content { margin-bottom: 130px; }
@@ -297,6 +322,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .document-type-cell, .document-date { display: none; }
   .document-chunks { font-size: 10px; white-space: nowrap; }
   .document-chunks::after { content: " chunks"; color: #9ba39d; font-weight: 400; }
+  .inline-evaluation-groups { grid-template-columns: 1fr; }
+  .inline-evaluation-run { margin: 0; }
   .library-footnote { flex-wrap: wrap; font-size: 9px; }
 }
 @media (prefers-reduced-motion: reduce) {
